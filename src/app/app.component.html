@@ -4,5 +4,55 @@
     Welcome to {{ title }}!
   </h1>
 </div>
+<div class="container">
+
+	<form (ngSubmit)="onSubmit()" class="text-center" #appForm="ngForm">
+
+		<div class="form-group">
+			<label for="floorsNumber">Floors number</label>
+			<input type="number" id="floorsNumber" name="floorsNumber" class="form-control" 
+			required  [(ngModel)]="simulation.floorsNumber" #floorsNumber="ngModel" appAmountAllowed>
+		</div>
+
+		<div *ngIf="floorsNumber.invalid && (floorsNumber.dirty || floorsNumber.touched)"
+		class="alert alert-danger">
+
+			<div *ngIf="floorsNumber.errors.required">
+				Floors Number is required.
+			</div>
+			<div *ngIf="floorsNumber.errors.maxlength">
+				Floors Number can't be more than 4 characters long.
+			</div>
+			<div *ngIf="floorsNumber.errors.amountAllowed">
+				Value must be greater or equal than 2
+			</div>
+
+		</div>
+
+		<div class="form-group">
+			<label for="elevatorsNumber">Elevators number</label>
+			<input  id="elevatorsNumber" name="elevatorsNumber" class="form-control" 
+			required  type="number" [(ngModel)]="simulation.elevatorsNumber" #elevatorsNumber="ngModel" appAmountAllowed>
+		</div> 
+
+		<div *ngIf="elevatorsNumber.invalid && (elevatorsNumber.dirty || elevatorsNumber.touched)"
+		class="alert alert-danger">
+
+			<div *ngIf="elevatorsNumber.errors.required">
+				Elevators Number is required.
+			</div>
+			<div *ngIf="elevatorsNumber.errors.maxlength">
+				Elevators Number can't be more than 4 characters long.
+			</div>
+			<div *ngIf="elevatorsNumber.errors.amountAllowed">
+				Value must be greater or equal than 2
+			</div>
+
+		</div>
+		<button type="submit" class="btn btn-success" [disabled]="!appForm.form.valid">Start Simulation</button>
+	</form>
+	
+</div>
+
 
 
