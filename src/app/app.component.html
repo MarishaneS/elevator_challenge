@@ -56,6 +56,7 @@
 				<li class="list-inline border" *ngFor="let elevator of elevators;let i = index">
 					<strong>Elevator Nº{{elevator.elevatorNumber}}<br></strong>
 					Elevator on floor <strong>{{elevator.position}}</strong><br>
+					Trips maded <strong>{{elevator.trips}}</strong><br>
 
 					<div *ngIf="elevator.serviced">
 						Elevators Stopped by maintenance
@@ -65,18 +66,27 @@
 			</ul>
 		</div>
 
+		<div *ngIf="closestElevator">
+			<strong>Elevator Nº{{closestElevator.elevatorNumber}}<br></strong>
+			Elevator on floor <strong>{{closestElevator.position}}</strong><br>
+			Trips maded <strong>{{closestElevator.trips}}</strong><br>
+		</div>
+		<div *ngIf="!closestElevator">
+			No elevators available
+		</div>
+
 		<form (ngSubmit)="beginRequest()" class="text-center" #appFormRequest="ngForm">
 
 		<div class="form-group">
 			<label for="requestFloorNumber">Call elevator in the floor number</label>
-			<input type="number" id="requestFloorNumber" name="requestFloorNumber" class="form-control"required appFloorNotExist [(ngModel)]="simulation.requestFloorNumber" #requestFloorNumber="ngModel">
+			<input type="number" id="requestFloorNumber" name="requestFloorNumber" class="form-control"required [(ngModel)]="simulation.requestFloorNumber" #requestFloorNumber="ngModel" appFloorNotExist>
 		</div>
 
 		<div *ngIf="requestFloorNumber.invalid && (requestFloorNumber.dirty || requestFloorNumber.touched)"
 		class="alert alert-danger">
 
 			<div *ngIf="requestFloorNumber.errors.required">
-				Floors Number is required.
+				Floor Number is required.
 			</div>
 			<div *ngIf="requestFloorNumber.errors.floorNotExist">
 				This floor number does not exist
