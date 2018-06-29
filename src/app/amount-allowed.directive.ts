@@ -6,7 +6,7 @@ import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators}   f
   providers: [{provide: NG_VALIDATORS, useExisting: AmountAllowedDirective, multi: true}]
 })
 export class AmountAllowedDirective implements Validator {
-
+	//check minimum allowed value
 	@Input('appAmountAllowed') amountAllowed: number;
 	validate(control: AbstractControl): {[key: number]: any} {
 		return (control.value < 2 ) ? {'amountAllowed': true } : null;

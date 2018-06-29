@@ -6,7 +6,7 @@
 </div>
 <div class="container">
 
-	<form (ngSubmit)="onSubmit()" class="text-center" #appForm="ngForm">
+	<form (ngSubmit)="startSimulation()" class="text-center" #appFormSimulacion="ngForm">
 
 		<div class="form-group">
 			<label for="floorsNumber">Floors number</label>
@@ -19,9 +19,6 @@
 
 			<div *ngIf="floorsNumber.errors.required">
 				Floors Number is required.
-			</div>
-			<div *ngIf="floorsNumber.errors.maxlength">
-				Floors Number can't be more than 4 characters long.
 			</div>
 			<div *ngIf="floorsNumber.errors.amountAllowed">
 				Value must be greater or equal than 2
@@ -41,16 +38,56 @@
 			<div *ngIf="elevatorsNumber.errors.required">
 				Elevators Number is required.
 			</div>
-			<div *ngIf="elevatorsNumber.errors.maxlength">
-				Elevators Number can't be more than 4 characters long.
-			</div>
 			<div *ngIf="elevatorsNumber.errors.amountAllowed">
 				Value must be greater or equal than 2
 			</div>
 
 		</div>
-		<button type="submit" class="btn btn-success" [disabled]="!appForm.form.valid">Start Simulation</button>
+		<button type="submit" class="btn btn-success" [disabled]="!appFormSimulacion.form.valid">Start Simulation</button>
 	</form>
+
+	<hr>
+
+	<div  id="simulation-panel" *ngIf="begin">
+		<h1 class="text-center">Simulation</h1>
+
+		<div id="elevators">
+			<ul class="list-inline">
+				<li class="list-inline border" *ngFor="let elevator of elevators;let i = index">
+					<strong>Elevator Nº{{elevator.elevatorNumber}}<br></strong>
+					Elevator on floor <strong>{{elevator.position}}</strong><br>
+
+					<div *ngIf="elevator.serviced">
+						Elevators Stopped by maintenance
+						<button (click)="repair(i)" class="btn btn-primary" >Repair</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<form (ngSubmit)="beginRequest()" class="text-center" #appFormRequest="ngForm">
+
+		<div class="form-group">
+			<label for="requestFloorNumber">Call elevator in the floor number</label>
+			<input type="number" id="requestFloorNumber" name="requestFloorNumber" class="form-control"required appFloorNotExist [(ngModel)]="simulation.requestFloorNumber" #requestFloorNumber="ngModel">
+		</div>
+
+		<div *ngIf="requestFloorNumber.invalid && (requestFloorNumber.dirty || requestFloorNumber.touched)"
+		class="alert alert-danger">
+
+			<div *ngIf="requestFloorNumber.errors.required">
+				Floors Number is required.
+			</div>
+			<div *ngIf="requestFloorNumber.errors.floorNotExist">
+				This floor number does not exist
+			</div>
+
+		</div>
+
+		
+		<button type="submit" class="btn btn-success" [disabled]="!appFormRequest.form.valid"> Call Elevator</button>
+	</form>
+	</div>
 	
 </div>
 

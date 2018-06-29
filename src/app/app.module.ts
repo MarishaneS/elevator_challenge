@@ -7,11 +7,15 @@ import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AmountAllowedDirective } from './amount-allowed.directive';
+import { FloorNotExistDirective } from './floor-not-exist.directive';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    AmountAllowedDirective
+    AmountAllowedDirective,
+    FloorNotExistDirective,
+   
   ],
   imports: [
     BrowserModule,
